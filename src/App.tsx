@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import Builder from "./pages/Builder";
 import Templates from "./pages/Templates";
+import Preview from "./pages/Preview";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -55,6 +56,14 @@ const App = () => (
                 element={
                   <AuthGuard>
                     <Builder />
+                  </AuthGuard>
+                } 
+              />
+              <Route 
+                path="/preview/:projectId" 
+                element={
+                  <AuthGuard>
+                    <Preview />
                   </AuthGuard>
                 } 
               />
