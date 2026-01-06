@@ -50,8 +50,6 @@ export default function Auth() {
       createAccountDesc: 'أنشئ حسابك وابدأ في بناء مواقعك',
       loginDesc: 'سجل دخولك للوصول لمشاريعك',
       backToHome: 'العودة للرئيسية',
-      demoHint: 'للتجربة: user@ntfly.com / user123',
-      adminHint: 'أدمن: lrsoufyane2007@gmail.com / admin123',
       betaAlert: '⚠️ هذا إصدار تجريبي (Beta) مجاني لمدة شهر',
       supportProject: 'ادعم المشروع',
       supportDesc: 'تبرعك اختياري ويساعدنا في تطوير المنصة وإضافة ميزات جديدة',
@@ -78,8 +76,6 @@ export default function Auth() {
       createAccountDesc: 'Create your account and start building websites',
       loginDesc: 'Sign in to access your projects',
       backToHome: 'Back to Home',
-      demoHint: 'Demo: user@ntfly.com / user123',
-      adminHint: 'Admin: lrsoufyane2007@gmail.com / admin123',
       betaAlert: '⚠️ Free Beta version for one month',
       supportProject: 'Support the Project',
       supportDesc: 'Your donation is optional and helps us develop the platform and add new features',
@@ -283,11 +279,6 @@ export default function Auth() {
             </button>
           </p>
 
-          {/* Demo Hint */}
-          <div className="mt-6 p-4 rounded-lg bg-muted/50 text-xs text-muted-foreground space-y-1">
-            <p>💡 {text.demoHint}</p>
-            <p>👑 {text.adminHint}</p>
-          </div>
 
           {/* Beta Alert */}
           <Alert className="mt-6 border-amber-500/50 bg-amber-500/10">

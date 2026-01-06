@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Zap, Instagram, Mail, Heart } from 'lucide-react';
+import { Zap, Instagram, Mail, Heart, Phone, Code } from 'lucide-react';
 
 export function Footer() {
   const { language } = useTheme();
@@ -26,6 +26,8 @@ export function Footer() {
       rights: 'جميع الحقوق محفوظة',
       madeWith: 'صنع بـ',
       inMorocco: 'في المغرب',
+      developer: 'المطور',
+      developerName: 'Soufyane',
     },
     en: {
       company: 'Ntfly Digital',
@@ -46,6 +48,8 @@ export function Footer() {
       rights: 'All rights reserved',
       madeWith: 'Made with',
       inMorocco: 'in Morocco',
+      developer: 'Developer',
+      developerName: 'Soufyane',
     },
   };
 
@@ -156,8 +160,44 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Developer Info */}
+        <div className="mt-8 pt-6 border-t border-border/50">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Code className="w-4 h-4 text-primary" />
+              <span>{text.developer}: <strong className="text-foreground">{text.developerName}</strong></span>
+            </div>
+            <span className="hidden md:inline text-border">|</span>
+            <a
+              href="https://instagram.com/soufyane__lr__77"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 hover:text-primary transition-colors"
+            >
+              <Instagram className="w-4 h-4" />
+              soufyane__lr__77
+            </a>
+            <span className="hidden md:inline text-border">|</span>
+            <a
+              href="mailto:lrsoufyane2007@gmail.com"
+              className="flex items-center gap-1.5 hover:text-primary transition-colors"
+            >
+              <Mail className="w-4 h-4" />
+              lrsoufyane2007@gmail.com
+            </a>
+            <span className="hidden md:inline text-border">|</span>
+            <a
+              href="tel:0638369776"
+              className="flex items-center gap-1.5 hover:text-primary transition-colors"
+            >
+              <Phone className="w-4 h-4" />
+              0638369776
+            </a>
+          </div>
+        </div>
+
         {/* Bottom */}
-        <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="mt-6 pt-6 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} {text.company}. {text.rights}
           </p>
