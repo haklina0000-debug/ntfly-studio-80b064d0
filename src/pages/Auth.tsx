@@ -5,7 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
-import { Zap, Mail, Lock, User, Github, Loader2, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Zap, Mail, Lock, User, Github, Loader2, ArrowLeft, ArrowRight, Heart, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function Auth() {
@@ -51,6 +52,11 @@ export default function Auth() {
       backToHome: 'العودة للرئيسية',
       demoHint: 'للتجربة: user@ntfly.com / user123',
       adminHint: 'أدمن: lrsoufyane2007@gmail.com / admin123',
+      betaAlert: '⚠️ هذا إصدار تجريبي (Beta) مجاني لمدة شهر',
+      supportProject: 'ادعم المشروع',
+      supportDesc: 'تبرعك اختياري ويساعدنا في تطوير المنصة وإضافة ميزات جديدة',
+      donateBtn: 'تبرع الآن',
+      donateComingSoon: 'سيتم تفعيل بوابة الدفع قريباً',
     },
     en: {
       login: 'Login',
@@ -74,6 +80,11 @@ export default function Auth() {
       backToHome: 'Back to Home',
       demoHint: 'Demo: user@ntfly.com / user123',
       adminHint: 'Admin: lrsoufyane2007@gmail.com / admin123',
+      betaAlert: '⚠️ Free Beta version for one month',
+      supportProject: 'Support the Project',
+      supportDesc: 'Your donation is optional and helps us develop the platform and add new features',
+      donateBtn: 'Donate Now',
+      donateComingSoon: 'Payment gateway coming soon',
     },
   };
 
@@ -276,6 +287,38 @@ export default function Auth() {
           <div className="mt-6 p-4 rounded-lg bg-muted/50 text-xs text-muted-foreground space-y-1">
             <p>💡 {text.demoHint}</p>
             <p>👑 {text.adminHint}</p>
+          </div>
+
+          {/* Beta Alert */}
+          <Alert className="mt-6 border-amber-500/50 bg-amber-500/10">
+            <AlertTriangle className="h-4 w-4 text-amber-500" />
+            <AlertDescription className="text-amber-600 dark:text-amber-400 font-medium">
+              {text.betaAlert}
+            </AlertDescription>
+          </Alert>
+
+          {/* Donations Section */}
+          <div className="mt-6 p-5 rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+            <div className="flex items-center gap-2 mb-3">
+              <Heart className="w-5 h-5 text-primary" />
+              <h3 className="font-semibold text-foreground">{text.supportProject}</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-4">
+              {text.supportDesc}
+            </p>
+            <Button 
+              variant="outline" 
+              className="w-full border-primary/30 hover:bg-primary/10 hover:border-primary/50"
+              onClick={() => {
+                // Placeholder for future payment integration
+                alert(text.donateComingSoon);
+              }}
+            >
+              <Heart className="w-4 h-4 me-2" />
+              {text.donateBtn}
+            </Button>
+            {/* Payment Integration Placeholder */}
+            {/* TODO: Integrate payment gateway (Stripe, PayPal, etc.) here */}
           </div>
         </div>
       </div>
