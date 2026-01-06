@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -6,6 +7,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { useTheme } from '@/contexts/ThemeContext';
+import { 
+  generateProjectFiles, 
+  downloadProjectAsZip, 
+  GeneratedProject 
+} from '@/lib/projectGenerator';
 import { 
   Sparkles, 
   Palette, 
@@ -26,10 +32,13 @@ type WebsiteType = 'business' | 'ecommerce' | 'portfolio' | 'landing';
 
 export default function Builder() {
   const { language } = useTheme();
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [isGenerating, setIsGenerating] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+  const [generatedProject, setGeneratedProject] = useState<GeneratedProject | null>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -76,6 +85,8 @@ export default function Builder() {
       complete: 'تم إنشاء موقعك بنجاح! 🎉',
       preview: 'معاينة الموقع',
       download: 'تحميل المشروع',
+      downloading: 'جاري التحضير...',
+      downloadSuccess: 'تم تحميل الملفات بنجاح!',
       createAnother: 'إنشاء موقع آخر',
     },
     en: {
@@ -114,6 +125,8 @@ export default function Builder() {
       complete: 'Your website is ready! 🎉',
       preview: 'Preview Website',
       download: 'Download Project',
+      downloading: 'Preparing...',
+      downloadSuccess: 'Files downloaded successfully!',
       createAnother: 'Create Another',
     },
   };
@@ -128,22 +141,49 @@ export default function Builder() {
   ];
 
   const handleGenerate = async () => {
+    if (!formData.type) return;
+    
     setIsGenerating(true);
     setProgress(0);
 
     // Simulate AI generation with progress
     for (let i = 0; i <= 100; i += 2) {
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 80));
       setProgress(i);
     }
 
+    // Generate actual project files
+    const project = generateProjectFiles({
+      name: formData.name,
+      type: formData.type as WebsiteType,
+      description: formData.description,
+      primaryColor: formData.primaryColor,
+      secondaryColor: formData.secondaryColor,
+    });
+
+    setGeneratedProject(project);
     setIsGenerating(false);
     setIsComplete(true);
     toast.success(text.complete);
   };
 
-  const handleDownload = () => {
-    toast.success(language === 'ar' ? 'جاري تحضير الملفات...' : 'Preparing files...');
+  const handleDownload = async () => {
+    if (!generatedProject) return;
+    
+    setIsDownloading(true);
+    try {
+      await downloadProjectAsZip(generatedProject);
+      toast.success(text.downloadSuccess);
+    } catch (err) {
+      toast.error(language === 'ar' ? 'فشل التحميل' : 'Download failed');
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
+  const handlePreview = () => {
+    if (!generatedProject) return;
+    navigate(`/preview/${generatedProject.id}`);
   };
 
   const renderStep = () => {
@@ -258,13 +298,22 @@ export default function Builder() {
             <p className="text-lg text-muted-foreground mb-8">{formData.name}</p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button variant="hero" size="lg">
+              <Button variant="hero" size="lg" onClick={handlePreview}>
                 <Eye className="w-5 h-5" />
                 {text.preview}
               </Button>
-              <Button variant="heroOutline" size="lg" onClick={handleDownload}>
-                <Download className="w-5 h-5" />
-                {text.download}
+              <Button 
+                variant="heroOutline" 
+                size="lg" 
+                onClick={handleDownload}
+                disabled={isDownloading}
+              >
+                {isDownloading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Download className="w-5 h-5" />
+                )}
+                {isDownloading ? text.downloading : text.download}
               </Button>
             </div>
 
