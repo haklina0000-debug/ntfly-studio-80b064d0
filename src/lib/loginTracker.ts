@@ -25,6 +25,9 @@ export function getLoginRecords(): LoginRecord[] {
   }
 }
 
+// Alias for getLoginRecords for backward compatibility
+export const getLoginHistory = getLoginRecords;
+
 /**
  * Record a dashboard login
  */
@@ -85,3 +88,6 @@ export function getLoginStats(): {
 export function clearLoginRecords(): void {
   localStorage.removeItem(LOGIN_STORAGE_KEY);
 }
+
+// Alias for clearLoginRecords for backward compatibility
+export const clearLoginHistory = clearLoginRecords;
